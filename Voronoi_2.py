@@ -54,7 +54,7 @@ def Voronoi_2(graf, U):
             else:
                 koncni_seznam[i].append(j+1)
         print(koncni_seznam)
-    print(koncni_seznam)
+    return(koncni_seznam)
 
 #print(Voronoi_2(matrika1,[1]))
 #print(Voronoi_2(matrika1,[2,3]))
