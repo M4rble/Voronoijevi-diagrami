@@ -1,0 +1,57 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage[document]{ragged2e}
+
+\title{%
+	Voronoijevi diagrami \\
+	\large Uvodno poročilo za Finančni Praktikum}
+
+\author{
+	Anže Mramor\\
+	\and
+	Peter Tiselj}
+
+
+\begin{document}
+\setlength{\parindent}{0,5cm}
+
+\maketitle
+
+
+\section{Definicija Voronoijevega diagrama}
+Definiramo jih na ravnini ali na splošnem metričnem prostoru. V danem grafu $G$ in podmnožici vozlišč $U$ ($U \subseteq G$) razdelimo vozlišča grafa $G$, glede na to, katero vozlišče iz $U$ jim je najbližje. Bolj natančno: za $\forall u \in U$, definiramo Voronoijevo celico, $(u, U)$, kot množico vseh vozlišč iz $G$, ki so bližje $u$ kot kateremu koli drugemu vozlišu $U \setminus \{u\}$.\\
+Oziroma s formalno definicijo:\\
+Naj bo $X$ metrični prostor z razdaljo $d$, ki je definirana kot razdalja med točko $x \in X$ in podmnožico $A$ : $d(x, A) = inf \{d(x, A) | a \in A \}$ . Naj bo še $K$ množica indeksov in $(P_k)_{k \in K}$ terica (tuple) nepraznih podmnožic v $X$. Potem definiramo Voronoijevo celico kot $R_k$ za $k \in K$ kot
+$$ R_k = \{ x \in X | d(x,P_{k}) \leq d(x,P_{j}) ; \forall j \neq k \} $$
+Voronoijev diagram je enostavno terica Voronoijevih celic $(R_k)_{k \in K}$
+
+\section{Opis problema}
+Pogledala si bova enostavna omrežja:
+\begin{itemize}
+\item mreže različnih velikosti ( $1 \times n, 2 \times n, n \times n, \dots $)
+\item različne tipe grafov (3 dimenzionalne mreže, unije ciklov, binarna drevesa in podobno)
+\end{itemize}
+Večino specifičnih omrežij si bova izbrala naknadno, ko bova dobila prve rezultate na recimo zgornjih primerih in potem videla kaj bi bilo še zanimivo oziroma smiselno preveriti.\\
+Za vsako omrežje si bova izbrala več smiselnih vrednosti $k$, ki nama bo predstavljalo število naključno izbranih vozlišč, za katere bova izračunala Voronoijeve celice. Nato bova statistično obdelovala velikosti dobljenih Voronoijevih celic. Pogledala bova na primer povprečno število vozlišč v minimalni, maksimalni in povprečni Voronoijevi celici za vsako omrežje in vse izbrane $k$.\\
+Za vsak izbrani $k$ bi bilo smiselno program pognati večkrat, da bova lahko opazovala kako se pri različnem izboru začetnih vozlišč, spreminjajo zgornje vrednosti. Rezultate bova beležila in jih predstavila v obliki tabel in grafov.
+
+\section{Postopek oziroma potek dela / psevdo opis algoritma}
+Vhodni podatek: povezana mreža ali graf vozlišč - $G$
+\begin{itemize}
+\item Naključno generiranje smiselne vrednosti $k$ 
+\item Za vsak $k$ naključno izbremo vozlišča v danem omrežju (generiranje množice $U$)
+\item Za vsak $u \in U$ s pomočjo Dijkstrovega algoritma/Floyd-Warshallovega izračunamo najkrajše poti do vseh vozlišč $v \in G \setminus U$
+\item Skonstruiramo drevo najkrajših poti - za korene dreves uporabimo elemente množice $U$, razdalja do lista drevesa pa je definirana, kot v definiciji diagrama
+\item Če ima en list enako razdaljo do dveh korenov, ga dodamo na koncu obeh dreves najkrajših poti
+\item Drevesa najkrajših poti bodo predstavljala Voronoijeve celice in na njih bova izvajala statistično ocenjevanje - prešteli šteilo vozlišč v vsakem drevesu in izračunali želene vrednosti
+\end{itemize}
+Sledilo bo statistično modeliranje rezultatov.
+
+\end{document}
