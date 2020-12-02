@@ -24,7 +24,7 @@ class Mreza(Graf):
     """
     Razred za 2D mreže.
     """
-    TIP = "2dmreze"
+    TIP = "2dmreza"
 
     def __init__(self, m, n):
         """
@@ -37,7 +37,7 @@ class Mreza3D(Graf):
     """
     Razred za 3D mreže
     """
-    TIP = "3dmreze"
+    TIP = "3dmreza"
     
     def __init__(self, m, n, st):
         """
@@ -64,7 +64,7 @@ class Cikli(BinomskoDrevo):
     Razred za drevesa z dodanimi cikli.
     Deduje od binomskega drevesa, ki ga vzame za osnovo.
     """
-    TIP = "cikli"
+    TIP = "cikel"
 
     def generiraj(self):
         """
@@ -236,7 +236,7 @@ def generiraj_vse_Voronoije(graf):
         general_results = []
 
         # loopaj po vseh možnih številih
-        print(f'Trenutno preračunavam: {i+1}')
+        print(f'Trenutno preračunavam {i+1}. iteracijo grafa tipa {tip_grafa} s/z {st_vozlisc} vozlišči')
         for stv in tqdm(range(1, st_vozlisc)):
             matrika = graf.generiraj()
             sp_meja = math.ceil(stv * 0.1)                          #najbolj zanimiva števila središč voronoijevih
