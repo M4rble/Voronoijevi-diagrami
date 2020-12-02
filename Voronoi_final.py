@@ -4,9 +4,91 @@ import csv
 import pandas as pd
 import math
 
+from tqdm import tqdm
+
+class Graf:                                         #naredimo classe za splošen graf in vsak tip grafa posebej
+    """
+    Osnovni razred za grafe.
+    """
+
+    def generiraj(self):
+        """
+        Privzeto so grafi deterministični.
+        """
+        return self.matrika
+
+    def stevilo_vozlisc(self):
+        return len(self.matrika)
+
+class Mreza(Graf):
+    """
+    Razred za 2D mreže.
+    """
+    TIP = "2dmreze"
+
+    def __init__(self, m, n):
+        """
+        Inicializiraj mrežo velikosti m*n.
+        """
+        self.matrika = mreza(m, n)
+
+
+class Mreza3D(Graf):
+    """
+    Razred za 3D mreže
+    """
+    TIP = "3dmreze"
+    
+    def __init__(self, m, n, st):
+        """
+        Inicializiraj mrežo velikosti m*n.
+        """
+        self.matrika = triDmreza(m,n,st)
+
+
+class BinomskoDrevo(Graf):
+    """
+    Razred za binomska drevesa
+    """
+    TIP = "binomski"
+
+    def __init__(self, n):
+        """
+        Inicializiraj mrežo velikosti m*n.
+        """
+        self.matrika = binomsko_drevo(n)
+
+
+class Cikli(BinomskoDrevo):
+    """
+    Razred za drevesa z dodanimi cikli.
+    Deduje od binomskega drevesa, ki ga vzame za osnovo.
+    """
+    TIP = "cikli"
+
+    def generiraj(self):
+        """
+        Ta razred je nedeterminističen, zato povozimo funkcijo generiraj.
+        """
+        matrika = [vrstica[:] for vrstica in self.matrika]                  #naredimo kopijo osnovne matrike
+        n = len(matrika)
+        k = random.randint(1, n)                                            #dodajanje povezav
+        izbrana_vozlisca = random.sample(range(0, len(matrika)), k)         #naključno izebermo vozlišča katerim bomo dodali povezave
+        for i in range(0,n):                                               
+            for j in izbrana_vozlisca:                                      #dodajanje povezav na primerna mesta
+                if i == j:                                                  #ne na diagonalo ali tam, kjer že je povezava
+                    pass
+                elif matrika[i][j] == 1:
+                    pass
+                else:
+                    matrika[i][j] = 1                                                   
+        return self.matrika
+
 
 def mreza(m,n):
-    '''skonstruira 2D mrežo z m vrsticami in n stolpci'''
+    """
+    skonstruira 2D mrežo z m vrsticami in n stolpci
+    """
     v = min(m,n)                                                    #da je lahko tudi več vrstic kot stolpcev,
     s = max(m,n)                                                    # saj sta to ista oz. ekvivalentna grafa
     if v == 1 and s == 2:
@@ -19,16 +101,18 @@ def mreza(m,n):
     for i in range(0,v*s, s):
         matrika[i][i-1] = 0                                         #popravek, da enice niso na celi pod oz. nad-diagonali
         matrika[i-1][i] = 0                                         #imamo toliko blokov, kot je minimum m-ja ter n-ja
-    for vrstica in matrika:                                         #to je zgolj za lepši izpis
+    """for vrstica in matrika:                                      #to je zgolj za lepši izpis
         for element in vrstica:
             print(element, end = " ") 
         print()
-    print("")
+    print("")"""
     return matrika
 
 
 def triDmreza(m,n,st):                                              #st kot števec nadstropij
-    '''skonstruira 3D mrežo'''
+    """
+    skonstruira 3D mrežo
+    """
     if st == 1:                                                     #lepotni popravek, ki nas vrne v 2 dimenziji
         return mreza(m,n)
     v = min(m, n)
@@ -51,22 +135,24 @@ def triDmreza(m,n,st):                                              #st kot šte
         for i in range(0, m*n*(st - 1)):                                #kot imamo nadstropij
             matrika[i][m*n + i] = 1
             matrika[m*n + i][i] = 1                                     #ta for je poskrbel za povezavo med "nadstropji"
-    for vrstica in matrika:                                             #to je zgolj za lepši izpis   
+    """for vrstica in matrika:                                             #to je zgolj za lepši izpis   
         for element in vrstica:
             print(element, end = " ") 
         print()
-    print("")
+    print("")"""
     return matrika
 
 
 def binomsko_drevo(n):
-    '''skonstruira binomsko drevo z n vozlišči'''
-    matrika = [[0 for i in range(n)] for j in range(n)]
-    for i in range(0, n):
-        m = 2*i + 1
-        k = 2*i + 2
+    """
+    skonstruira binomsko drevo z n vozlišči
+    """
+    matrika = [[0 for i in range(n)] for j in range(n)]             #konstruiranje prazne matrike
+    for i in range(0, n):                                           #kompletna binomska drevesa se za vse n
+        m = 2*i + 1                                                 #generirajo po standardnem vzorcu, ki sva
+        k = 2*i + 2                                                 #ga izpeljala
         if m < n:
-            matrika[i][m] = 1
+            matrika[i][m] = 1                                       
         if k < n:
             matrika[i][k] = 1
         if i == 0:
@@ -77,24 +163,7 @@ def binomsko_drevo(n):
             matrika[i][math.floor((i-2)/2)] = 1
     return matrika
 
-
-def cikli(n):
-    '''vzame binomsko drevo in doda k naključnih povezav'''
-    matrika = binomsko_drevo(n)
-    print(matrika)
-    k = random.randint(1,n)
-    for i in range(0,k):
-        j = random.randint(0, n-1)
-        if i == j:
-            pass
-        elif matrika[i][j] == 1:
-            pass
-        else:
-            matrika[i][j] = 1
-    return matrika
-
-
-def FloydWarshall(graf):
+def FloydWarshall(graf):                                            #standarden znan algoritem
     ''' Vrne najkrajše poti med vsemi pari vozlišč '''
     n = len(graf[0])
     d = graf
@@ -116,7 +185,7 @@ def stolpec(matrika, j):
     return [vrstica[j] for vrstica in matrika]
 
 
-def Voronoi_2(graf, U, tip_grafa='binomski'):
+def Voronoi_2(graf, U, tip_grafa):
     ''' Skonstruira Voronoijev diagram 
     iz matrike sosednosti (graf) na vozliščih iz U '''
     u = len(U)
@@ -139,7 +208,6 @@ def Voronoi_2(graf, U, tip_grafa='binomski'):
                 pass
             else:
                 koncni_seznam[i].append(j+1)
-        print(koncni_seznam)
 
 #zapis rezultatov, NE SPREMINJAJ
     results = {'tip_grafa':[], 'stevilo_vseh_vozlisc':[],
@@ -154,36 +222,42 @@ def Voronoi_2(graf, U, tip_grafa='binomski'):
         results['V_celica_moc'] += [len(celica)-1]
     
     data = pd.DataFrame(results)
-    print(data)
-
+    
     return data
 
 
-def generiraj_vse_Voronoije(st_vozlisc=8, tip_grafa='2dmreze'):
+def generiraj_vse_Voronoije(graf):
     """Generiraj vse Voronije"""
-    #ročno popraviš st_vozlisc in tip_grafa na želeno za generiranje
-    #za mreže mora biti st_vozlisc = stolpci * vrstice
+
+    st_vozlisc = graf.stevilo_vozlisc()
+    tip_grafa = graf.TIP
     
-    general_results = []
+    for i in range(0, 5):                                  #vsakič ponovimo 5x
+        general_results = []
 
-    # loopaj po vseh možnih številih
-    for stv in range(1, st_vozlisc):
-        #za mreže izpolniš ročno
-        stolpci = 4
-        vrstice = 2
-        for k in range(1,stv):
-            matrika = mreza(vrstice, stolpci)               #če je mreža
-            #matrika = binomski(st_vozlisc)                 #če je binomsko drevo
-            #matrika = cikli(st_vozlisc)                    #če je cikel
-            print(matrika)
-            U = random.sample(range(1, len(matrika)), k)
-            print(U)
-            general_results += [Voronoi_2(matrika, U)]
-            print(general_results)
+        # loopaj po vseh možnih številih
+        print(f'Trenutno preračunavam: {i+1}')
+        for stv in tqdm(range(1, st_vozlisc)):
+            matrika = graf.generiraj()
+            sp_meja = math.ceil(stv * 0.1)                          #najbolj zanimiva števila središč voronoijevih
+            zg_meja = math.ceil(stv * 0.5)                          #celic bodo med 10 in 50% vseh vozlišč grafa 
+            for k in range(sp_meja, zg_meja + 1):                   #generiranje voronoijevega diragrama za graf
+                U = random.sample(range(0, len(matrika) + 1), k)
+                general_results += [Voronoi_2(matrika, U, tip_grafa)]
+                
+
+        final_results = pd.concat(general_results, axis=0, ignore_index=True)
+
+        final_results.index.name = 'ID'
+
+        final_results.to_csv(f'files/rezultati_{tip_grafa}_do_{st_vozlisc}.tsv', sep='\t')
 
 
-    final_results = pd.concat(general_results, axis=0, ignore_index=True)
+if __name__ == '__main__':                                           #generiranje podatkov za obdelovanje
 
-    final_results.index.name = 'ID'
+    print('Sem v Main in delam')
 
-    final_results.to_csv(f'files/rezultati_{tip_grafa}_do_{st_vozlisc}.tsv', sep='\t')
+    a = generiraj_vse_Voronoije(Mreza(4,2))
+    b = generiraj_vse_Voronoije(Mreza3D(4,3,3))
+    c = generiraj_vse_Voronoije(BinomskoDrevo(8))
+    d = generiraj_vse_Voronoije(Cikli(8))

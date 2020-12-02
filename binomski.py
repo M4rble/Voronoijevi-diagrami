@@ -29,16 +29,18 @@ def cikli(n):
     matrika = binomsko_drevo(n)
     print(matrika)
     k = random.randint(1,n)
-    for i in range(0,k):
-        j = random.randint(0, n-1)
-        if i == j:
-            pass
-        elif matrika[i][j] == 1:
-            pass
-        else:
-            matrika[i][j] = 1
+    print(k)
+    izbrana_vozlisca = random.sample(range(0, len(matrika)), k)
+    for i in range(0,n):
+        for j in izbrana_vozlisca:
+            if i == j:
+                pass
+            elif matrika[i][j] == 1:
+                pass
+            else:
+                matrika[i][j] = 1
     return matrika
 
 #print(cikli(5))
-#print(cikli(8))
+print(cikli(8))
 #print(cikli(12))
