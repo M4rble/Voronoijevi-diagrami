@@ -66,7 +66,7 @@ Za konec sva iz rezultatov poskušala napovedati, kako bi izgledali rezultati pr
 
 ### Rezultati
 
-(rezultati za mreže in 3D mreže po zgledu spodaj)
+#### Binomska drevesa in cikli
 
 ```{r binomski, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 source("modeliranje_binomskih.r", encoding="UTF-8")
@@ -102,3 +102,9 @@ Ko primerjamo grafe za različna števila vozlišč, je to eksponentno padanje z
 print(graf_vsi_binomski)
 print(graf_vsi_cikel)
 ```
+
+#### 2D in 3D mreže
+
+Naslednja podatkovna struktura, ki sva si jo v luči analiziranja Voronoijevih diagramov pobliže ogledala, so dvo in tridimenzionalne mreže. Pri mrežah sva pričakovala, da se bodo povprečne velikosti Voronoijevih celic razlikovale od "strukture" mreže, saj lahko npr. mrežo s $24$ vozlišči konstruiramo kot mrežo $3 \times 8$ ali kot $4 \times 6$. \\
+Za analizo sva tako izbrala vse možne mreže z $256$ vozlišči ($2^8$). Vse možne mreže so torej, dvodimenzionalne: $1 \times 256$, $2 \times 128$, $4 \times 64$, $8 \times 32$ in $16 \times 16$; tridimenzionalne $2 \times 2 \times 64$, $2 \times 4 \times 32$, $2 \times 8 \times 16$, $4 \times 4 \times 16$ ter $4 \times 8 \times 8$. \\
+S korakom $5$ sva dvajsetkrat generirala naključno izbrana vozlišča med $5$ ter $125$ vozlišči. Z grafa sva hitro ugotovila, da so dvodimenzionalne mreže precej podobne in da omejenost zgolj na pot dolžine $256$ ne vpliva drastično na povprečne velikosti Voronoijevih celic. Tudi dodatna dimenzija na drugem grafu ne pomeni drastičnega povečanja povprečnih velikosti celic, npr. na mreži $1 \times 256$ nam $40$ izbranih vozlišč generira Voronoijeve celice s povprečno močjo oz. velikostjo $5.85$, medtem ko nam $40$ izbranih vozlišč na najbolj "svobodni" mreži $4 \times 8 \times 8$ generira Voronoijeve celice povprečne moči $9.73$.
