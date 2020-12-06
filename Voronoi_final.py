@@ -98,7 +98,7 @@ def mreza(m,n):
         for j in range(0,v*s):
             if i == j+1 or i == j-1 or i == j-s or j == i-s:
                 matrika[i][j] = 1                                   #enice pod in nad diagonalo ali na diagonalah pod bloki
-    for i in range(0,v*s, s):
+    for i in range(s,v*s, s):
         matrika[i][i-1] = 0                                         #popravek, da enice niso na celi pod oz. nad-diagonali
         matrika[i-1][i] = 0                                         #imamo toliko blokov, kot je minimum m-ja ter n-ja
     """for vrstica in matrika:                                      #to je zgolj za lepši izpis
@@ -231,33 +231,55 @@ def generiraj_vse_Voronoije(graf):
 
     st_vozlisc = graf.stevilo_vozlisc()
     tip_grafa = graf.TIP
-    
-    for i in range(0, 5):                                  #vsakič ponovimo 5x
-        general_results = []
+    matrika = graf.generiraj()
+    general_results = []
+    sp_meja = math.ceil(st_vozlisc * 0.05)                                                               #najbolj zanimiva števila središč voronoijevih
+    zg_meja = math.ceil(st_vozlisc * 0.6)                                                                      #celic bodo med 10 in 50% vseh vozlišč grafa 
 
-        # loopaj po vseh možnih številih
-        print(f'Trenutno preračunavam {i+1}. iteracijo grafa tipa {tip_grafa} s/z {st_vozlisc} vozlišči')
-        for stv in tqdm(range(1, st_vozlisc)):
-            matrika = graf.generiraj()
-            sp_meja = math.ceil(stv * 0.1)                          #najbolj zanimiva števila središč voronoijevih
-            zg_meja = math.ceil(stv * 0.5)                          #celic bodo med 10 in 50% vseh vozlišč grafa 
-            for k in range(sp_meja, zg_meja + 1):                   #generiranje voronoijevega diragrama za graf
-                U = random.sample(range(0, len(matrika) + 1), k)
+    if st_vozlisc <= 100:
+        for i in range(0, 50):                                                                                          #vsakič ponovimo 5x
+            print(f'Trenutno preračunavam {i+1}. iteracijo grafa tipa {tip_grafa} s/z {st_vozlisc} vozlišči')
+            for k in tqdm(range(sp_meja, zg_meja + 1)):                                                                             #generiranje voronoijevega diragrama za graf
+                U = random.sample(range(1, len(matrika) + 1), k)
                 general_results += [Voronoi_2(matrika, U, tip_grafa)]
-                
+    else:
+        for i in range(0, 20):
+            print(f'Trenutno preračunavam {i+1}. iteracijo grafa tipa {tip_grafa} s/z {st_vozlisc} vozlišči')
+            for k in tqdm(range(sp_meja, zg_meja + 1, 10)):                                                                     #generiranje voronoijevega diragrama za graf
+                U = random.sample(range(1, len(matrika) + 1), k)
+                general_results += [Voronoi_2(matrika, U, tip_grafa)]
+                    
 
-        final_results = pd.concat(general_results, axis=0, ignore_index=True)
+    final_results = pd.concat(general_results, axis=0, ignore_index=True)
 
-        final_results.index.name = 'ID'
+    final_results.index.name = 'ID'
 
-        final_results.to_csv(f'files/rezultati_{tip_grafa}_do_{st_vozlisc}.tsv', sep='\t')
+    final_results.to_csv(f'files/rezultati_{tip_grafa}_do_{st_vozlisc}.tsv', sep='\t')
 
 
 if __name__ == '__main__':                                           #generiranje podatkov za obdelovanje
 
     print('Sem v Main in delam')
 
-    a = generiraj_vse_Voronoije(Mreza(4,2))
-    b = generiraj_vse_Voronoije(Mreza3D(4,3,3))
-    c = generiraj_vse_Voronoije(BinomskoDrevo(8))
-    d = generiraj_vse_Voronoije(Cikli(8))
+    #a = generiraj_vse_Voronoije(BinomskoDrevo(10))
+    #b = generiraj_vse_Voronoije(BinomskoDrevo(30))
+    #c = generiraj_vse_Voronoije(BinomskoDrevo(50))
+    #d = generiraj_vse_Voronoije(BinomskoDrevo(75))
+    #e = generiraj_vse_Voronoije(BinomskoDrevo(100))
+    #f = generiraj_vse_Voronoije(BinomskoDrevo(200))
+    #g = generiraj_vse_Voronoije(BinomskoDrevo(350))
+    #h = generiraj_vse_Voronoije(BinomskoDrevo(500))
+    k = generiraj_vse_Voronoije(Cikli(10))
+    l = generiraj_vse_Voronoije(Cikli(30))
+    m = generiraj_vse_Voronoije(Cikli(50))
+    n = generiraj_vse_Voronoije(Cikli(75))
+    o = generiraj_vse_Voronoije(Cikli(100))
+    p = generiraj_vse_Voronoije(Cikli(200))
+    r = generiraj_vse_Voronoije(Cikli(350))
+    s = generiraj_vse_Voronoije(Cikli(500))
+    #i = generiraj_vse_Voronoije(BinomskoDrevo(750))
+    #j = generiraj_vse_Voronoije(BinomskoDrevo(1000))
+    #t = generiraj_vse_Voronoije(Cikli(750))
+    #u = generiraj_vse_Voronoije(Cikli(1000))
+
+
