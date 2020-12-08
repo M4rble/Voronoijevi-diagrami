@@ -29,7 +29,7 @@ Voronoijev diagram je enostavno terica Voronoijevih celic $(R_k)_{k \in K}$
 ## Opis problema
 
 Pogledala sva si enostavna omrežja:
-1. dvo- in trodeminzionalne mreže različnih velikosti  - $1 \times n, 2 \times n, n \times n, \dots $
+1. dvo- in trodeminzionalne mreže različnih velikosti - $1 \times n$, $2 \times n$, $n \times n$, $\dots$
 2. različne tipe grafov kot so binarna drevesa in grafi s cikli
 
 Za vsako omrežje sva si izbrala več smiselnih vrednosti $k$, ki so nama predstavljali število naključno izbranih vozlišč, za katere sva izračunala Voronoijeve celice. Nato sva statistično obdelovala velikosti dobljenih Voronoijevih celic. Pogledala sva povprečno število vozlišč v minimalni, maksimalni in povprečni Voronoijevi celici za vsako omrežje in vse izbrane $k$, poskušala iz grafov z manjšim številom vozlišč napovedati kakšno bo število vozlišč v celicah pri grafih z večjim številom vozlišč, ter poskušala ugotoviti kakšna je porazdelitev velikosti celic glede na izbrani $k$ (Peter dopolni primerno kar si delu pls).  
@@ -74,9 +74,9 @@ source("modeliranje_binomskih.r", encoding="UTF-8")
 
 ```{r grafi_binomski, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, results='hide'}
 #grafi primerjave povprečnih velikosti celic glede na število središč po vozliščih
-print(graf_binomski50)
-print(graf_binomski100)
-print(graf_binomski500)
+print(graf_binomski[[2]])
+print(graf_binomski[[4]])
+print(graf_binomski[[7]])
 ```
 
 Kot je zelo lepo razvidno iz zgornjih grafov, se za vse 3 (in tudi vse neprikazane grafe) pojavlja isti vzorec. Ko je število središč majhno, so povprečne velikosti celice občutno večje kot ob velikih številih središč. To je seveda logično, saj je jasno, da je povprečno število celic sorazmerno padajoče z večanjem števila središč. Morda se na grafih nekoliko zavajajoče zdi, da imajo grafi s 100 in 500 vozlišči ob majhnem številu središč enako velikost celic, vendar je treba opomniti, da se graf za 500 vozlišč začne z 20 središči, graf za 100 vozlišči pa s 5, ko primerjamo pri enakem številu središč se vrednosti občutno razlikujejo - pri grafu s 100 vozlišči je pri dvajsetih središčih povprečna velikost povprečne celice nekaj manj kot 10, medtem ko je pri grafu z 500 vozlišči ta velikost 30. Na vseh grafih je očitno eksponentno padajoče sorazmerje, kar lahko predvidevamo za vse grafe z več vozlišči.
@@ -84,14 +84,14 @@ Kot je zelo lepo razvidno iz zgornjih grafov, se za vse 3 (in tudi vse neprikaza
 Zelo podobne rezultate dobimo tudi pri analiziranju ciklov, le da so bile najvišje povprečne velikosti celic nekaj višje (za približno 10). Še vedno pa velikosti eksponentno padajo z višanjem števila središč.  
 
 ```{r cikli, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
-source("modeliranje_ciklov.r", encoding="UTF-8")
+#source("modeliranje_ciklov.r", encoding="UTF-8")
 ```
 
 ```{r grafi_cikel, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, results='hide'}
 #grafi primerjave povprečnih velikosti celic glede na število središč po vozliščih
-print(graf_cikel50)
-print(graf_cikel100)
-print(graf_cikel500)
+#print(graf_cikel50)
+#print(graf_cikel100)
+#print(graf_cikel500)
 ```
 
 
@@ -100,7 +100,7 @@ Ko primerjamo grafe za različna števila vozlišč, je to eksponentno padanje z
 ```{r grafi_skupaj, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, results='hide'}
 #grafi primerjave povprečnih velikosti celic glede na število središč in vseh vozlišč
 print(graf_vsi_binomski)
-print(graf_vsi_cikel)
+#print(graf_vsi_cikel)
 ```
 
 #### 2D in 3D mreže
