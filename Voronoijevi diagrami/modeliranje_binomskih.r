@@ -40,7 +40,7 @@ graf_binomski <- lapply(1:length(velikosti),
                                      col=tip_celice)) + geom_point() + geom_line() +
                           xlab('Število središč') +
                           ylab('Povprečno število vozlišč v celici') +
-                          ggtitle(sprintf('Primerjava povprečnih velikosti celic glede na število sredič za %d vozlišč', i)) + 
+                          ggtitle(sprintf('Povprečne velikosti celic glede na število središč za binomska drevesa z %d vozlišči', velikosti[i])) + 
                           labs(fill="Tip celice"))
 
 #primerjava vseh vozlišč
@@ -53,6 +53,6 @@ povprecni <- lapply(1:length(velikosti),
 
 graf_vsi_binomski <- ggplot(povprecni, aes(x=stevilo_sredisc, y=povprecje,
                                            color=velikost)) + geom_point() +
-  ggtitle("Primerjava povprečnega števila velikosti celic glede na število središč in vseh vozlišč") +
+  ggtitle("Povprečna velikost celic glede na število središč za binomska drevesa vseh velikosti") +
   xlab("Število središč") + ylab("Povprečno število vozlišč v celici") +
   xlim(0, 100) + ylim(0, 25)
