@@ -3,8 +3,8 @@ title: "Poročilo projekta - Voronoijevi diagrami"
 author: "Anže Mramor in Peter Tiselj"
 date: "4.12.2020"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -81,7 +81,9 @@ print(graf_binomski[[8]])
 
 Kot je zelo lepo razvidno iz zgornjih grafov, se za vse 3 (in tudi vse neprikazane grafe) pojavlja isti vzorec. Ko je število središč majhno, so povprečne velikosti celice občutno večje kot ob velikih številih središč. To je seveda logično, saj je jasno, da je povprečno število celic sorazmerno padajoče z večanjem števila središč. Morda se na grafih nekoliko zavajajoče zdi, da imajo grafi s 100 in 500 vozlišči ob majhnem številu središč enako velikost celic, vendar je treba opomniti, da se graf za 500 vozlišč začne z 20 središči, graf za 100 vozlišči pa s 5, ko primerjamo pri enakem številu središč se vrednosti občutno razlikujejo - pri grafu s 100 vozlišči je pri dvajsetih središčih povprečna velikost povprečne celice nekaj manj kot 10, medtem ko je pri grafu z 500 vozlišči ta velikost 30. Na vseh grafih je očitno eksponentno padajoče sorazmerje, kar lahko predvidevamo za vse grafe z več vozlišči.
 
-Zelo podobne rezultate dobimo tudi pri analiziranju ciklov, le da so bile najvišje povprečne velikosti celic nekaj višje (za približno 10). Še vedno pa velikosti eksponentno padajo z višanjem števila središč.  
+Zelo podobne rezultate dobimo tudi pri analiziranju ciklov. Diagrami imajo nejvečjo povprečno velikost celic pri manjšem številu središč, ko pa to število povečujemo, pa velikosti celic eksponentno padajo. Opazimo lahko, da je tako kot pri prejšnjih grafih začetna razlika med velikimi, povprečnimi in majhnimi celicami velika, ko pa povečujemo število središč se razlike med njimi zmanjšujejo. Pri tem se pokaže predvsem razlika, da so najvišje povprečne velikosti celic pri ciklih za nekaj vozlišč večje (pri grafih z manj vozlišči, teh razlik skorajda ni, pri grafi z velikim številom vozlišm, recimo do 500, pa se razlikujejo za manj kot 10). Še vedno pa povprečne velikosti vseh tipov celic eksponentno padajo z višanjem števila središč.  
+
+Iz tega lahko zaključimo, da dodajanje povezav v binomska drevesa za generiranje ciklov ne vpliva ključno pri majhnih številih vozlišč, verjetno pa bi se večji vplivi pokazali pri grafih z večjimi števili vozlišč (recimo od 1000 in več). Poleg tega lahko zaključimo, da se vsi tipi vozlišč obnašajo po podobnem principu - veliko število vozlišč za malo število središč in potem eksponentno padanje z večanjem števila središč.
 
 ```{r cikli, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
 source("modeliranje_ciklov.r", encoding="UTF-8")
@@ -95,7 +97,7 @@ print(graf_cikel[[8]])
 ```
 
 
-Ko primerjamo grafe za različna števila vozlišč, je to eksponentno padanje zelo lepo vidno.
+Ko primerjamo grafe za različna števila vozlišč, je eksponentno padanje povprečnega števila vozlišč lepo opazno - na začetku se povprečne velikosti celic zmanjšjejo hitro, na to pa so vedno bolj konstantne, potrebujejo večje število dodatnih središč za opazno zmanjšanje. Zelo dobro se vidi tudi razlika, da grafi z večjim števiom vozlišč, na primer z 500, dosežejo oziroma presežejo enako povprečno velikost celice kot grafi z manjšim številom vozlišč, pri precej večjem številu središč - graf s 500 vozlišči pri 25 središčih doseže podobno povprečno velikost celice (nekaj manj kot 25 vozlišč) kot graf s 100 vozlišči pri 5 središčih. Enaki trendi veljajo za vse opazovane tipe grafov, kot prikazujejo spodnje slike, razlikujejo se le v najvišji doseženi povprečni velikosti celice.
 
 ```{r grafi_skupaj, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, results='hide'}
 #grafi primerjave povprečnih velikosti celic glede na število središč in vseh vozlišč
@@ -108,3 +110,9 @@ print(graf_vsi_cikel)
 Naslednja podatkovna struktura, ki sva si jo v luči analiziranja Voronoijevih diagramov pobliže ogledala, so dvo in tridimenzionalne mreže. Pri mrežah sva pričakovala, da se bodo povprečne velikosti Voronoijevih celic razlikovale od "strukture" mreže, saj lahko npr. mrežo s $24$ vozlišči konstruiramo kot mrežo $3 \times 8$ ali kot $4 \times 6$. \\
 Za analizo sva tako izbrala vse možne mreže z $256$ vozlišči ($2^8$). Vse možne mreže so torej, dvodimenzionalne: $1 \times 256$, $2 \times 128$, $4 \times 64$, $8 \times 32$ in $16 \times 16$; tridimenzionalne $2 \times 2 \times 64$, $2 \times 4 \times 32$, $2 \times 8 \times 16$, $4 \times 4 \times 16$ ter $4 \times 8 \times 8$. \\
 S korakom $5$ sva dvajsetkrat generirala naključno izbrana vozlišča med $5$ ter $125$ vozlišči. Z grafa sva hitro ugotovila, da so dvodimenzionalne mreže precej podobne in da omejenost zgolj na pot dolžine $256$ ne vpliva drastično na povprečne velikosti Voronoijevih celic. Tudi dodatna dimenzija na drugem grafu ne pomeni drastičnega povečanja povprečnih velikosti celic, npr. na mreži $1 \times 256$ nam $40$ izbranih vozlišč generira Voronoijeve celice s povprečno močjo oz. velikostjo $5.85$, medtem ko nam $40$ izbranih vozlišč na najbolj "svobodni" mreži $4 \times 8 \times 8$ generira Voronoijeve celice povprečne moči $9.73$.
+
+
+## Zaključek in možne izboljšave
+
+Rezulati so pričakovani - povprečne velikosti celic padajo z večjim številom središč, za vse opazovane tipe grafov, skoraj gotovo pa tudi za katerekoli druge tipe. Bi pa se dalo verjetno precej stvari izboljšati. Zelo očitno je da bi na boljšo natančno rezultatov vplivalo večje število ponovitev (recimo 100 ali 1000) generiranja za vsak tip grafa, ter opazovanje grafov z večjim števiom vozlišč. To bi bilo v prvi vrsti verjetno možno s prekonstruiranjem in optimiziranjem kode programa, da bi ta delovala hitreje, saj je za velika števila vozlišč izjemno dolgotrajna. Na neki točki verjetno ne bi pomagalo niti to in bi enostavno potrebovali zmogljivejše računalnike za generiranje diagramov. Smiselno bi bilo opazovati tudi še katere druge tipe grafov, vendar se zaradi pomanjkanja časa za to nisva odločila, saj bi tako projekt zelo hitro postal zelo kompleksen.  
+Poleg tega bi bilo verjetno smiselno, da bi se nekoliko spremenilo generiranje ciklov. V trenutni kodi namreč generiramo en naključni cikel iz binomskega drevesa za dano število vozlišč. Verjetno bi bilo za bolj natančne rezultate smiselno preveriti generiranje več različnih ciklov, da bi videli kako dodajanje povezav na različa mesta vpliva na povprečne velikosti celic. Tudi za to se nisva odločila, ker so tudi ostali tipi grafov zgenerirani enolično glede na število povezav, ter zaradi časovne stiske, vendar bi bilo to ob drugačnih pogojih vsekakor smiselno preveriti. Lahko bi dodala tudi grafične ponazoritve diagramov, da bi bile primerjave za velikosti Voronoijevih celic glede na različne tipe ter števila vozlišč in središč še bolj očitne in predstavljive. 

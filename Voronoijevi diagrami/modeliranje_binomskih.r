@@ -53,6 +53,6 @@ povprecni <- lapply(1:length(velikosti),
 
 graf_vsi_binomski <- ggplot(povprecni, aes(x=stevilo_sredisc, y=povprecje,
                                            color=velikost)) + geom_point() +
-  ggtitle("Povprečna velikost celic glede na število središč za binomska drevesa vseh velikosti") +
+  ggtitle("Povprečna velikost celic glede na število središč za vsa binomska drevesa") +
   xlab("Število središč") + ylab("Povprečno število vozlišč v celici") +
   xlim(0, 100) + ylim(0, 25)

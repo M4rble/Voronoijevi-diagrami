@@ -53,6 +53,6 @@ povprecni <- lapply(1:length(velikosti),
 
 graf_vsi_cikel <- ggplot(povprecni, aes(x=stevilo_sredisc, y=povprecje,
                                            color=velikost)) + geom_point() +
-  ggtitle("Povprečna velikost celic glede na število središč za cikle vseh velikosti") +
+  ggtitle("Povprečna velikost celic glede na število središč za vse cikle") +
   xlab("Število središč") + ylab("Povprečno število vozlišč v celici") +
   xlim(0, 100) + ylim(0, 25)
