@@ -33,6 +33,19 @@ class Mreza(Graf):
         self.matrika = mreza(m, n)
 
 
+class InfMreza(Graf):
+    """
+    Razred za improvizirane neskoncne 2D mreze
+    """
+    TIP = "inf2dmreze"
+
+    def __init__(self, m, n):
+        """
+        Inicializiraj improvizirano neskoncno mrezo velikosti m*n
+        """
+        self.matrika = inf_mreza(m, n)
+
+
 class Mreza3D(Graf):
     """
     Razred za 3D mreže
@@ -106,6 +119,26 @@ def mreza(m,n):
             print(element, end = " ") 
         print()
     print("")"""
+    return matrika
+
+
+def inf_mreza(m,n): #ce je eden izmed m in n enak 1, dobimo navaden cikel
+    v = min(m,n)                                                    
+    s = max(m,n)                                                                                            
+    matrika = [[0 for i in range(v*s)] for j in range(v*s)]
+    for i in range(0,v*s):
+        for j in range(0,v*s):
+            if i == j+1 or i == j-1 or i == j-s or j == i-s:
+                matrika[i][j] = 1                                   
+    for i in range(s,v*s, s):
+        matrika[i][i-1] = 0                                         
+        matrika[i-1][i] = 0   #do tukaj je le konstrukcija mreze
+    for i in range(0,s): #ta zanka ustrezno poveze prvo vrstico z zadnjo
+        matrika[i][s*(v - 1) + i] = 1
+        matrika[s*(v - 1) + i][i] = 1
+    for i in range(0,v*s, s):
+        matrika[i][i + s - 1] = 1
+        matrika[i + s - 1][i] = 1
     return matrika
 
 
@@ -261,25 +294,8 @@ if __name__ == '__main__':                                           #generiranj
 
     print('Sem v Main in delam')
 
-    #a = generiraj_vse_Voronoije(BinomskoDrevo(10))
-    #b = generiraj_vse_Voronoije(BinomskoDrevo(30))
-    #c = generiraj_vse_Voronoije(BinomskoDrevo(50))
-    #d = generiraj_vse_Voronoije(BinomskoDrevo(75))
-    #e = generiraj_vse_Voronoije(BinomskoDrevo(100))
-    #f = generiraj_vse_Voronoije(BinomskoDrevo(200))
-    #g = generiraj_vse_Voronoije(BinomskoDrevo(350))
-    #h = generiraj_vse_Voronoije(BinomskoDrevo(500))
-    k = generiraj_vse_Voronoije(Cikli(10))
-    l = generiraj_vse_Voronoije(Cikli(30))
-    m = generiraj_vse_Voronoije(Cikli(50))
-    n = generiraj_vse_Voronoije(Cikli(75))
-    o = generiraj_vse_Voronoije(Cikli(100))
-    p = generiraj_vse_Voronoije(Cikli(200))
-    r = generiraj_vse_Voronoije(Cikli(350))
-    s = generiraj_vse_Voronoije(Cikli(500))
-    #i = generiraj_vse_Voronoije(BinomskoDrevo(750))
-    #j = generiraj_vse_Voronoije(BinomskoDrevo(1000))
-    #t = generiraj_vse_Voronoije(Cikli(750))
-    #u = generiraj_vse_Voronoije(Cikli(1000))
+    a = generiraj_vse_Voronoije(Mreza(5,5))
+    b = generiraj_vse_Voronoije(BinomskoDrevo(30))
+    c = generiraj_vse_Voronoije(Cikli(30))
 
 
