@@ -3,8 +3,8 @@ title: "Poročilo projekta - Voronoijevi diagrami"
 author: "Anže Mramor in Peter Tiselj"
 date: "4.12.2020"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -110,6 +110,28 @@ print(graf_vsi_cikel)
 Naslednja podatkovna struktura, ki sva si jo v luči analiziranja Voronoijevih diagramov pobliže ogledala, so dvo in tridimenzionalne mreže. Pri mrežah sva pričakovala, da se bodo povprečne velikosti Voronoijevih celic razlikovale od "strukture" mreže, saj lahko npr. mrežo s $24$ vozlišči konstruiramo kot mrežo $3 \times 8$ ali kot $4 \times 6$. \\
 Za analizo sva tako izbrala vse možne mreže z $256$ vozlišči ($2^8$). Vse možne mreže so torej, dvodimenzionalne: $1 \times 256$, $2 \times 128$, $4 \times 64$, $8 \times 32$ in $16 \times 16$; tridimenzionalne $2 \times 2 \times 64$, $2 \times 4 \times 32$, $2 \times 8 \times 16$, $4 \times 4 \times 16$ ter $4 \times 8 \times 8$. \\
 S korakom $5$ sva dvajsetkrat generirala naključno izbrana vozlišča med $5$ ter $125$ vozlišči. Z grafa sva hitro ugotovila, da so dvodimenzionalne mreže precej podobne in da omejenost zgolj na pot dolžine $256$ ne vpliva drastično na povprečne velikosti Voronoijevih celic. Tudi dodatna dimenzija na drugem grafu ne pomeni drastičnega povečanja povprečnih velikosti celic, npr. na mreži $1 \times 256$ nam $40$ izbranih vozlišč generira Voronoijeve celice s povprečno močjo oz. velikostjo $5.85$, medtem ko nam $40$ izbranih vozlišč na najbolj "svobodni" mreži $4 \times 8 \times 8$ generira Voronoijeve celice povprečne moči $9.73$.
+
+```{r mreze_256, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+source("PROJEKTmreze256.r", encoding="UTF-8")
+```
+
+#### Simulacija neizbiranja robov
+Problem sva si poizkusila zastaviti še v drugačni luči. Kaj se zgodi, če ne dovolimo izbora robnih točk, torej takšnih, ki nimajo štirih povezav? V pythonu sva dodala novo funkcijo, s katero sva poizkusila simulirati neizbiranje robnih točk, to pa sva implementirala kar z dodajanjem povezav - dobljena funkcija nam tako generira grafe, podobne mrežam, le da ima vsaka vozlišče natanko $4$ povezave. Intuitivno si to lahko predstavljamo tako, da smo vse robove mreže povezali med sabo, torej levi rob z desnim ter zgornjega s spodnjim.  
+
+
+Na prvi sliki tako lahko vidimo histogram za $100$ iteracij "neskončne" mreže velikosti $16\times 16$ (t.j. take brez robov), kateremu sva po metodi najmanjših kvadratov dodala (modro) gostoto pripadajoče Weibullove porazdelitve. Da pokažemo dinamiko, sta na graf dodani tudi Weibullovi gostoti, dobljeni po stotih oz. desetih iteracijah na mreži $8\times 8$ oz. $32\times 32$. Opazimo lahko, da se gostoti dobljeni z večjih dveh mrež že precej lepo ujemata, gostota manjše, $8\times 8$ mreže pa nekoliko odstopa. Mislimo si torej, da se s povečanjem št. vozlišč mreže Weibullove gostote še bolj ujemajo.  
+Na histogram je (z debelejšo zeleno) dorisana tudi Rayleighova krivulja za isti vzorec podatkov. Zakaj - Weibullova porazdelitev je odvisna od dveh parametrov, Rayleighova pa le od enega. Veljalo je razmisliti, da bi bil ta parameter lahko (fiksno) število izbranih Voronoijevih vozlišč (v obravnavanem primeru $1/8$), a s slike vidimo, da se (modra) Weibullova gostota histogramu bolje prilega kot (zelena) Rayleighova.  
+
+Predpostavimo torej, da se za "neskončne" mreže porazdelitve za velike $n$ ujemajo. Na sliki sta vidni pripadajoči Weibullovi gostoti za mreži $32\times 32$ in $48\times 48$. Ker se grafa skoraj ujemata, je dodana še tretja slika, kjer je skala močno pomanjšana, da lahko res opazimo ujemanje teh dveh gostot, obeh dobljenih na več kot $1000$ podatkih.
+
+
+```{r infmreze, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+source("PROJEKTinfmreze.R", encoding="UTF-8")
+```
+
+Vzemimo torej Weibullovo gostoto, dobljeno z metodo najmanjših kvadratov na desetih iteracijah "neskončne" mreže $32\times 32$. To krivuljo po prejšnjem razmisleku proglasimo za gostoto vseh "mrež", torej takšnih brez robov. Na graf dodamo še krivulje navadnih, "končnih" mrež, torej takšnih z robovi. Vidimo, da se s povečanjem dimenzije navadne mreže Weibullove gostote vse bolj prilegajo rdeči krivulji, lahko bi rekli, da sva empirično dokazala, da je limitna funkcija zaporedja Weibullovih gostot navadnih mrež Weibullova gostota mreže brez robov.  
+Rezultat oz. potrditev hipoteze ni presenetljiva. Ko večamo dimenzijo mreže, se število notranjih vozlišč - takšnih s štirimi povezavami - povečuje s kvadratom, število robnih vozlišč - takšnih s tremi povezavami - pa pospešeno linearno. Za središča na robu so Voronoijeve celice seveda manjše, a ko v neskončnosti prevladajo notranja vozlišča, vpliv robov izgine.  
+Velja opozoriti na specifično izbiro tipov mrež oz. njihovih velikosti. Ker opazujeva dogajanja pri fiksnem izboru števila središč Voronoijevih celic, želiva, da je ta procent vozlišč celo število. Vzela sva torej takšne mreže, katerih osmina števila vozlišč je celo število, da sva minimizirala računske napake, ki bi nastale ob zaokroževanju.  
 
 
 ## Zaključek in možne izboljšave

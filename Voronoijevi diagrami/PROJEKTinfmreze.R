@@ -77,7 +77,7 @@ legend("topleft", c("infmreza 32x32 10 krat","infmreza 48x48 5 krat"),
 #______________________________________________________________________#
 
 #Ob normalni skali je razlika neznatna, zato vse "neskončne" mreže opišemo z isto krivuljo
-curve(dweibull(x,scale=parametraW32$estimate[2],shape=parametraW32$estimate[1]),xlim=c(0,27),col="red",lwd=1,
+curve(dweibull(x,scale=parametraW32$estimate[2],shape=parametraW32$estimate[1]),xlim=c(0,27),col="red",lwd=2,
       main="Weibullove gostote glede na 'končnost' mreze",
       ylab="gostota",
       xlab="velikost Voronoijeve celice (1/8 izbranih vozlisc)")
@@ -102,9 +102,8 @@ curve(dweibull(x,scale=parametraWnavadna48$estimate[2],shape=parametraWnavadna48
 
 curve(dweibull(x,scale=parametraW32$estimate[2],shape=parametraW32$estimate[1]),col="red",lwd=1,add=TRUE)
       
-abline(v=8) #pričakovali bi maksimum v 8, ker smo izbrali 1/8 sredisc
 legend("topright", c("neskoncne mreze","navadna mreza 8x8","navadna mreza 16x16", "navadna mreza 48x48"), col=c("red","darkorange2","blue","green"),
-       lwd=c(1,1,1),bty="n")
+       lwd=c(2,1,1,1),bty="n")
 
 
 
