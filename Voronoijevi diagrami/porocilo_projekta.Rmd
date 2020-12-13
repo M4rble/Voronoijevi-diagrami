@@ -32,7 +32,7 @@ Pogledala sva si enostavna omrežja:
   -  dvo- in trodeminzionalne mreže različnih velikosti - $1 \times n$, $2 \times n$, $n \times n$, $\dots$  
   -  različne tipe grafov kot so binarna drevesa in grafi s cikli
 
-Za vsako omrežje sva si izbrala več smiselnih vrednosti $k$, ki so nama predstavljali število naključno izbranih vozlišč, za katere sva izračunala Voronoijeve celice. Nato sva statistično obdelovala velikosti dobljenih Voronoijevih celic. Pogledala sva povprečno število vozlišč v minimalni, maksimalni in povprečni Voronoijevi celici za vsako omrežje in vse izbrane $k$, poskušala iz grafov z manjšim številom vozlišč napovedati kakšno bo število vozlišč v celicah pri grafih z večjim številom vozlišč, ter poskušala ugotoviti kakšna je porazdelitev velikosti celic glede na izbrani $k$ (Peter dopolni primerno kar si delu pls).  
+Za vsako omrežje sva si izbrala več smiselnih vrednosti $k$, ki so nama predstavljali število naključno izbranih vozlišč, za katere sva izračunala Voronoijeve celice. Nato sva statistično obdelovala velikosti dobljenih Voronoijevih celic. Pogledala sva povprečno število vozlišč v minimalni, maksimalni in povprečni Voronoijevi celici za vsako omrežje in vse izbrane $k$, poskušala iz grafov z manjšim številom vozlišč napovedati kakšno bo število vozlišč v celicah pri grafih z večjim številom vozlišč, ter poskušala ugotoviti kakšna je porazdelitev velikosti celic glede na izbrani $k$.  
 Za vsak izbrani $k$ sva program pognala večkrat, saj sva tako lahko opazovala kako se pri različnem izboru začetnih vozlišč, spreminjajo zgornje vrednosti. Rezultate sva shranjevala v *.tsv* datoteke in jih nato obdelala v programu *r*. Ker so tabele za najin problem zelo velike, bova rezultate predstavila predvsem v obliki grafov.
 
 ## Glavna ideja programa / psevdokoda
@@ -59,10 +59,8 @@ Vse rezultate za en tip grafa s stalnim številom vozlišč sva shranila v isto 
 
 ### Obdelava podatkov v programu r
 
-Podakte sva uvozila v program r in jih statistično obdelala. Najprej sva spisala funkcijo, ki je vsaki celici priredila status velike, povprečne ali male, glede na število elementov v njej. Najprej sva preračunala povprečno velikost vseh celic, glede na število središč. Kot velike celice sva nato nastavila tiste, ki so bile od povprečnih večje za faktor 1.9, kot male pa tiste, ki so bile manjše za faktor 0.1. Nato sva za vsak tip celice preračunala povprečno velikost in jih prikazala na grafu, za vsako število vozlišč posebej. V tem sklopu sva naredila še primerjavo povprečnih velikosti celic glede na število središč in vozlišč.  
-(za tu spiši kar si ti svojega obdeloval)
+Podakte sva uvozila v program r in jih statistično obdelala. Najprej sva spisala funkcijo, ki je vsaki celici priredila status velike, povprečne ali male, glede na število elementov v njej. Najprej sva preračunala povprečno velikost vseh celic, glede na število središč. Kot velike celice sva nato nastavila tiste, ki so bile od povprečnih večje za faktor 1.9, kot male pa tiste, ki so bile manjše za faktor 0.1. Nato sva za vsak tip celice preračunala povprečno velikost in jih prikazala na grafu, za vsako število vozlišč posebej. V tem sklopu sva naredila še primerjavo povprečnih velikosti celic glede na število središč in vozlišč. Poleg tega pa sva se za mreže poiskala še gostoto porazdelitve, ki najbolj primerno opiše spreminjaje velikosti celice s spreminjajem velikosti mreže.
 
-(Za konec sva iz rezultatov poskušala napovedati, kako bi izgledali rezultati pri grafih z več vozlišči.)
 
 ### Rezultati
 
